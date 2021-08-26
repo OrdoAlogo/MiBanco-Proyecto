@@ -1,9 +1,15 @@
 package com.curso.dominio;
 
-public class Cuenta {
-	private double saldo;
+import java.io.Serializable;
 
-	public Cuenta(double saldo) {
+public abstract class Cuenta implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	protected double saldo;
+
+	protected Cuenta(double saldo) {
 		super();
 		this.saldo = saldo;
 	}
@@ -17,27 +23,44 @@ public class Cuenta {
 			 System.out.println("Ingrese una cantidad Positiva");
 		 }
 		 else {
-			 this.saldo += importe;
-			 System.out.println("OPERACION REALIZADA CON EXITO");
+			 System.out.println("------------------");
+			 System.out.println("INGRESO CON EXITO");
+			 System.out.println("Saldo Anterior: "+this.saldo+" Ingreso: "+importe);
+			 this.saldo = this.saldo+importe;
 			 System.out.println("Su saldo actual es: "+this.saldo);
+			 
 		 }
 	 }
 	 
-	 public void reintegro(double importe) {
-		 if(importe > this.saldo) {
+	 public boolean reintegro(double importeR) throws OverdrafException {
+		 boolean result = false;
+		 
+		 if(importeR >= saldo) {
 			 
-			 System.out.println("No tienes saldo suficiente en la cuenta");
+			 System.out.println("Saldo insuficiente");
+			 System.out.println("------------------");
+			 result = false;
+			 
+		 }if(importeR <= saldo) {
+			 System.out.println("------------------");
+			 System.out.println("REINTEGRO con EXITO");
+			 System.out.println("Saldo Anterior: "+ this.saldo+ " Reintegro: "+importeR);
+			 saldo = saldo - importeR;
+			 System.out.println("Saldo actual: "+ this.saldo);
+			
+			 result = true;
 		 }
-		 else {
-			 this.saldo = this.saldo - importe;
-			 System.out.println("OPERACION REALIZADA CON ÉXITO");
-			 System.out.println("Importe reintegro " +importe+ " Saldo Actual: "+this.saldo);
-		 }
+		 
+		 return result;
+	 }
+	 
+	 public double balance() {
+		 return 0.0;
 	 }
 
 	@Override
 	public String toString() {
-		return "Cuenta saldo actual " + saldo ;
+		return "Cuenta saldo actual " + this.saldo ;
 	}
 	
 	
