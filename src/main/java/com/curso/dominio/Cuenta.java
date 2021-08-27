@@ -54,14 +54,12 @@ public abstract class Cuenta implements Serializable{
 		 return result;
 	 }
 	 
+	 
 	 public double balance() {
-		 return 0.0;
+		 return this.saldo;
 	 }
 
-	@Override
-	public String toString() {
-		return "Cuenta saldo actual " + this.saldo ;
-	}
+	
 	
 	
 }
