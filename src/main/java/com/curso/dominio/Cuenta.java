@@ -32,26 +32,22 @@ public abstract class Cuenta implements Serializable{
 		 }
 	 }
 	 
-	 public boolean reintegro(double importeR) throws OverdrafException {
+	 public void reintegro(double importeR) throws OverdrafException {
 		 boolean result = false;
 		 
-		 if(importeR >= saldo) {
+		 if(importeR <= this.saldo) {
 			 
-			 System.out.println("Saldo insuficiente");
-			 System.out.println("------------------");
-			 result = false;
-			 
-		 }if(importeR <= saldo) {
 			 System.out.println("------------------");
 			 System.out.println("REINTEGRO con EXITO");
 			 System.out.println("Saldo Anterior: "+ this.saldo+ " Reintegro: "+importeR);
-			 saldo = saldo - importeR;
+			 this.saldo = this.saldo - importeR;
 			 System.out.println("Saldo actual: "+ this.saldo);
-			
-			 result = true;
+			  
+		 }else {
+			 throw new OverdrafException("Saldo insuficiente", importeR-this.saldo);
+		 
 		 }
 		 
-		 return result;
 	 }
 	 
 	 

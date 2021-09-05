@@ -1,5 +1,7 @@
 package com.curso.mibanco;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -18,23 +20,34 @@ public class Application
 	
 	public static void main( String[] args )
 	{
-		Cuenta corriente = new CheckingAccount(2000,0);
-		corriente.deposito(125);
-		corriente.deposito(50);
-		
+		Cuenta corriente = new CheckingAccount(2000,1500);
 		Cuenta ahorro = new SavingsAccount(1000,0);
-		Cuenta ahorro2 = new SavingsAccount(700,0);
-		Cuenta ahorro3 = new SavingsAccount(1500,0);
-		Cuenta corriente2 = new CheckingAccount(2100,0);
-		ahorro.deposito(500);
-		ahorro.deposito(55);
 		
+		corriente.deposito(125);
+		ahorro.deposito(500);
+	
 		try {
-			corriente.reintegro(250);
-			ahorro.reintegro(5500);
+			
+			corriente.reintegro(3500);
+			ahorro.reintegro(500);
 			
 		} catch (OverdrafException e) {
-			e.getMessage();
+			System.out.println();
+			System.out.println("Saldo insuficiente");
+			System.out.println();
+		}finally {
+			
+			try {
+				corriente.reintegro(1500);
+				ahorro.reintegro(500);
+				
+			} catch (OverdrafException e) {
+				// TODO Auto-generated catch block
+				System.out.println();
+				System.out.println("Saldo insuficiente");
+				System.out.println();
+			}
+			
 		}
 		
 		Banco bbva = new Banco("BBVA");
@@ -53,11 +66,10 @@ public class Application
 		ordoño = bbva.getCliente(0);
 		iker = bbva.getCliente(1);
 		
+		
 		ordoño.addCuenta(ahorro);
+		sandra.addCuenta(new CheckingAccount(1000,1500));
 		iker.addCuenta(corriente);
-		gorka.addCuenta(corriente2);
-		sandra.addCuenta(ahorro3);
-		teofilo.addCuenta(ahorro2);
 		
 		GenerarClientes generar = new GenerarClientes();
 		generar.generarClientes(santander);

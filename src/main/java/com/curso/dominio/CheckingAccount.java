@@ -9,43 +9,39 @@ public class CheckingAccount extends Cuenta implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 		private double limiteCredito;
-		private double saldoInicial;
 		
 	public CheckingAccount(double saldoInicial, double limiteCredito) {
 		super(saldoInicial);
-		this.limiteCredito = 5000;
+		this.limiteCredito = limiteCredito;
 		
 	}
 	
 	public CheckingAccount(double saldoInicial) {
 		super(saldoInicial);
-		this.limiteCredito = 5000;
+		this.limiteCredito = limiteCredito;
 		
 	}
 	@Override
-	public boolean reintegro(double importeR) throws OverdrafException{
-		boolean result = false;
-		double debito = this.saldoInicial - importeR;
+	public void reintegro(double importeR) throws OverdrafException{
 		
-		if(this.limiteCredito < debito) {
+		if(this.saldo < importeR) {
 			
-			result = false;
-			throw new OverdrafException("Limite agotado",(this.limiteCredito-debito));
+			double saldoNecesario = importeR - this.saldo;
+			if(limiteCredito < saldoNecesario) {
+				throw new OverdrafException("Fondos insuficientes",saldoNecesario);
+			}else {
+				this.saldo = 0.0;
+				limiteCredito -= saldoNecesario;
+			}
 			
-		}if(this.limiteCredito > debito) {
-			
-			result = true;
-			
+		}else {
+			 System.out.println("------------------");
+			 System.out.println("REINTEGRO con EXITO");
+			 System.out.println("Saldo Anterior: "+ this.saldo+ " Reintegro: "+importeR);
+			 this.saldo = this.saldo - importeR;
+			 System.out.println("Saldo actual: "+ this.saldo);
 		}
 		
-		return super.reintegro(importeR);
-		
 	}
-	
-	
-	
-	
-	
-	
-
+		
 }
